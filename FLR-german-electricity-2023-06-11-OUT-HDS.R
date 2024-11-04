@@ -1,4 +1,4 @@
-
+ 
 ## type_est: Estimation procedure 
 ##          'ML': Maximum likelihood
 ##	      'WML':  Weighted version of ML with weights given through type_weight
@@ -218,7 +218,7 @@ ttt<-tt
 yy <- 1*(Demanda>median(Demanda))
 
 #######################################
-# GRAFICO DATOS
+# PLOT DATA
 ########################################
 
 nombre="datos-electricidad.pdf"
@@ -285,7 +285,7 @@ matplot(ttt,t(X.aaa[yy.aaa==0,]), type = "l", col = "chartreuse4",
 dev.off()
 
 ###########################################
-#### calculo estimadores
+#### COMPUTE ESTIMATORS
 ###########################################
 nsamp <- dim(X)[1]
 freqmin= floor(max(nsamp^(1/5),4))
@@ -375,28 +375,7 @@ prob.WML.HDS <- result.WML.HDS$prob.predict
 
 residuo.WML.HDS <- result.WML.HDS$residuo.Pearson
 residuo.dev.WML.HDS <- result.WML.HDS$residuo.deviance
-
-#################################################################
-# WML with weights  depending on the functional boxplot
-#################################################################
-
-type_est = 'WML'	
-type_weight='FBOXB'
-
-ajuste.WML.FBOXB <- Flogitfunctional.fit(yy=yy, X=X, type_est=type_est,type_weight=type_weight, range_freq=rango.freq, norder=4, ttt=ttt)  
-
-alfa.WML.FBOXB <- ajuste.WML.FBOXB$ordenada
-beta.WML.FBOXB <- ajuste.WML.FBOXB$beta
-freq.WML.FBOXB <-ajuste.WML.FBOXB$freq.opt
-mejor.WML.FBOXB <- ajuste.WML.FBOXB$value.opt    
-
  
-result.WML.FBOXB <- Flogit.predichos(yy=yy,X=X,ttt, alfa=alfa.WML.FBOXB, beta=beta.WML.FBOXB) 
-predicho.WML.FBOXB <- result.WML.FBOXB$predicted
-prob.WML.FBOXB <- result.WML.FBOXB$prob.predict
-
-residuo.WML.FBOXB <- result.WML.FBOXB$residuo.Pearson
-residuo.dev.WML.FBOXB <- result.WML.FBOXB$residuo.deviance
 
 #################################################################
 # WM  with hard rejection weights based on Mahalanobis distance
@@ -420,93 +399,31 @@ prob.WM.HDS <- result.WM.HDS$prob.predict
 residuo.WM.HDS <- result.WM.HDS$residuo.Pearson
 residuo.dev.WM.HDS <- result.WM.HDS$residuo.deviance
 
-#################################################################
-# WM  with bisquare weights based on Mahalanobis distance
-#################################################################
-
-type_est = 'WM'	
-type_weight='BQDS' 
-
-ajuste.WM.BQDS <- Flogitfunctional.fit(yy=yy, X=X, type_est=type_est,type_weight=type_weight, range_freq=rango.freq, norder=4, ttt=ttt)  
-
-alfa.WM.BQDS <- ajuste.WM.BQDS$ordenada
-beta.WM.BQDS <- ajuste.WM.BQDS$beta
-freq.WM.BQDS <-ajuste.WM.BQDS$freq.opt
-mejor.WM.BQDS <- ajuste.WM.BQDS$value.opt   
- 
-
-result.WM.BQDS <- Flogit.predichos(yy=yy,X=X,ttt, alfa=alfa.WM.BQDS, beta=beta.WM.BQDS) 
-predicho.WM.BQDS <- result.WM.BQDS$predicted
-prob.WM.BQDS <- result.WM.BQDS$prob.predict
-
-residuo.WM.BQDS <- result.WM.BQDS$residuo.Pearson
-residuo.dev.WM.BQDS <- result.WM.BQDS$residuo.deviance
-
-#################################################################
-# WM with weights  depending on the functional boxplot
-#################################################################
-
-type_est = 'WM'	
-type_weight='FBOXB'
-
-ajuste.WM.FBOXB <- Flogitfunctional.fit(yy=yy, X=X, type_est=type_est,type_weight=type_weight, range_freq=rango.freq, norder=4, ttt=ttt)  
-
-alfa.WM.FBOXB <- ajuste.WM.FBOXB$ordenada
-beta.WM.FBOXB <- ajuste.WM.FBOXB$beta
-freq.WM.FBOXB <-ajuste.WM.FBOXB$freq.opt
-mejor.WM.FBOXB <- ajuste.WM.FBOXB$value.opt    
-
-
- 
-result.WM.FBOXB <- Flogit.predichos(yy=yy,X=X,ttt, alfa=alfa.WM.FBOXB, beta=beta.WM.FBOXB) 
-predicho.WM.FBOXB <- result.WM.FBOXB$predicted
-prob.WM.FBOXB <- result.WM.FBOXB$prob.predict
-
-residuo.WM.FBOXB <- result.WM.FBOXB$residuo.Pearson
-residuo.dev.WM.FBOXB <- result.WM.FBOXB$residuo.deviance
-
+  
 #########################################################
 # RESULTS INTERCEPT and DIMENSION B-SPLINES BASIS
 #########################################################
 
-c(alfa.WM.FBOXB, alfa.WM.BQDS, alfa.WM.HDS, alfa.WML.HDS, alfa.WML.FBOXB, alfa.M, alfa.ML) 
-# -1.843922 -1.994791 -1.811251 -1.692665 -1.611188 -1.588176 -1.563998
+c(  alfa.WM.HDS, alfa.WML.HDS,  alfa.M, alfa.ML) 
+#   -1.811251 -1.692665  -1.588176 -1.563998
 
-c(freq.WM.FBOXB, freq.WM.BQDS, freq.WM.HDS, freq.WML.HDS, freq.WML.FBOXB,freq.M, freq.ML) 
-# 5 7 7 7 7 5 7
+c(  freq.WM.HDS, freq.WML.HDS,  freq.M, freq.ML) 
+#   7 7   5 7
 
 ################################
 # PLOTS OF BETA
 ################################
 
-
-maximo=max(c(beta.WM.FBOXB,beta.WM.BQDS,beta.WM.HDS,beta.WML.HDS,beta.WML.FBOXB,beta.M,beta.ML))
-minimo=min(c(beta.WM.FBOXB,beta.WM.BQDS,beta.WM.HDS,beta.WML.HDS,beta.WML.FBOXB,beta.M,beta.ML))
-
-par(mar=c(4,5,3,3))
-plot(ttt,beta.WM.BQDS, type="l", col="blue",lwd=2, xlab= "Time (in hours)", 
-      ylim=c(minimo,maximo), ylab=expression(hat(beta)))
-lines(ttt,beta.WM.FBOXB, type="l", col="steelblue",lwd=2)
-lines(ttt,beta.WM.HDS, type="l", col="violet",lty=2,lwd=2)
-
-lines(ttt,beta.WML.HDS, type="l", col="pink",lwd=2)
-
-lines(ttt,beta.M, type="l", col="cyan",lwd=2)
-lines(ttt,beta.ML, type="l", col="tomato",lwd=2)
-
-estimador <- c('WM.BQDS','WM.FBOXB', 'WM.HDS', 'WML.HDS','M','ML')
-colores <- c("blue","steelblue","violet","pink","cyan","tomato")
-legend('bottom', legend=estimador, col=colores, lty=c(1,1,2,1,1,1), lwd=4,ncol=2,cex=0.8)
-
-nombre="beta-ML-M-WMBQDS.pdf"
+ 
+nombre="beta-ML-M-WMHDS.pdf"
 pdf(nombre, bg='transparent')
 par(mar=c(4,5,3,3))
 
-maximo=max(c(beta.WM.BQDS,beta.M,beta.ML))
-minimo=min(c(beta.WM.BQDS,beta.M,beta.ML))
+maximo=max(c(beta.WM.HDS,beta.M,beta.ML))
+minimo=min(c(beta.WM.HDS,beta.M,beta.ML))
 
 
-plot(ttt,beta.WM.BQDS, type="l", col="blue",lwd=2, xlab= "Time (in hours)", 
+plot(ttt,beta.WM.HDS, type="l", col="blue",lwd=2, xlab= "Time (in hours)", 
       ylim=c(minimo,maximo), ylab=expression(hat(beta)))
 
 lines(ttt,beta.M, type="l", col="cyan",lwd=2)
@@ -546,32 +463,7 @@ boxplot(prob.WML.HDS[yy==0], prob.WML.HDS[yy==1], col=c("gold","violet"), names=
 
 dev.off()
 
-
-nombre="prob-predicha-WML-FMBOXB.pdf"
-pdf(nombre,bg='transparent')
-
-boxplot(prob.WML.FBOXB[yy==0], prob.WML.FBOXB[yy==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
-
-nombre="prob-predicha-WM-FMBOXB.pdf"
-pdf(nombre,bg='transparent')
-
-boxplot(prob.WM.FBOXB[yy==0], prob.WM.FBOXB[yy==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
-
-
-nombre="prob-predicha-WM-BQDS.pdf"
-pdf(nombre,bg='transparent')
-
-boxplot(prob.WM.BQDS[yy==0], prob.WM.BQDS[yy==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
-
+ 
 
 nombre="prob-predicha-WM-HDS.pdf"
 pdf(nombre,bg='transparent')
@@ -586,8 +478,7 @@ dev.off()
 #####################################
  
 
-names(residuo.ML) <- names(residuo.M)<- names(residuo.WML.FBOXB)<- names(residuo.WM.FBOXB)<- 
-      names(residuo.WM.BQDS)<-names(residuo.WM.HDS)<- names(residuo.WML.HDS)<-1:length(yy)
+names(residuo.ML) <- names(residuo.M)<-   names(residuo.WM.HDS)<- names(residuo.WML.HDS)<-1:length(yy)
 
 res <- abs(residuo.ML)
 out.pearson<-as.numeric(names(adjbox(res)$out))
@@ -603,32 +494,14 @@ out.res.pearson.WML.HDS <- out.pearson[!inliers]
 # 638
 
 
-res <- abs(residuo.WML.FBOXB )
-out.pearson<-as.numeric(names(adjbox(res)$out))
-inliers <- res[out.pearson] < median(res,na.rm =TRUE)
-out.res.pearson.WML.FBOXB <- out.pearson[!inliers] 
-# 75 134 136 469 502 519 550 638
-
+ 
 res <- abs(residuo.M )
 out.pearson<-as.numeric(names(adjbox(res)$out))
 inliers <- res[out.pearson] < median(res,na.rm =TRUE)
 out.res.pearson.M <- out.pearson[!inliers] 
 #  321 336 469 519 638
 
-res <- abs(residuo.WM.BQDS )
-out.pearson<-as.numeric(names(adjbox(res)$out))
-inliers <- res[out.pearson] < median(res,na.rm =TRUE)
-out.res.pearson.WM.BQDS <- out.pearson[!inliers] 
-# 66  75  76  77 134 136 137 445 469 502 508 519 543 550 618 619 621 622 627
-# 638
-
-
-res <- abs(residuo.WM.FBOXB)
-out.pearson<-as.numeric(names(adjbox(res)$out))
-inliers <- res[out.pearson] < median(res,na.rm =TRUE)
-out.res.pearson.WM.FBOXB <- out.pearson[!inliers] 
-#321 336 469 519 638
-
+ 
 
 res <- abs(residuo.WM.HDS )
 out.pearson<-as.numeric(names(adjbox(res)$out))
@@ -638,22 +511,13 @@ out.res.pearson.WM.HDS <- out.pearson[!inliers]
 # 638
 
 ######################################################
-## QQ PLOT OF Deviance RESIDUALS COMPUTED WITH WM-BQDS
+## QQ PLOT OF Deviance RESIDUALS COMPUTED WITH WM-HDS
 ######################################################
  
 
-names(residuo.dev.ML) <- names(residuo.dev.M)<- names(residuo.dev.WML.FBOXB)<- names(residuo.dev.WM.FBOXB)<- 
-      	names(residuo.dev.WM.BQDS)<-names(residuo.dev.WM.HDS)<- names(residuo.dev.WML.HDS)<- 
-	names(prob.WM.HDS)<- names(prob.WM.BQDS)<-1:length(yy)
-
-nombre="QQPLOT-DEV-WM-BQDS.pdf" 
- 
-grafico <- QQDEV.plot(prob.hat=prob.WM.BQDS, resid.dev=residuo.dev.WM.BQDS, plt = TRUE, nombre)   
-
-bounds.WM.BQDS<- grafico$limites
-out.WM.BQDS<- as.numeric(names(grafico$index.outliers))
- 
-out.WM.BQDS
+names(residuo.dev.ML) <- names(residuo.dev.M)<- 
+names(residuo.dev.WM.HDS)<- names(residuo.dev.WML.HDS)<- 
+	names(prob.WM.HDS)<- names(prob.WML.HDS)<-1:length(yy)
  
 
 nombre="QQPLOT-DEV-WM-HDS.pdf" 
@@ -708,53 +572,16 @@ prob.ML.sout <- result.ML.sout$prob.predict
 # RESULT
 ##################################################
 
-c(alfa.WM.FBOXB, alfa.WM.BQDS, alfa.WM.HDS, alfa.WML.HDS, alfa.WML.FBOXB, alfa.M, alfa.ML,alfa.ML.sout) 
-#  -1.843922 -1.994791 -1.811251 -1.692665 -1.611188 -1.588176 -1.563998
-# -1.852221
+c(  alfa.WM.HDS, alfa.WML.HDS,   alfa.M, alfa.ML,alfa.ML.sout) 
+#   -1.811251 -1.692665   -1.588176 -1.563998  -1.852221
 
-c(freq.WM.FBOXB, freq.WM.BQDS, freq.WM.HDS, freq.WML.HDS, freq.WML.FBOXB,freq.M, freq.ML,freq.ML.sout) 
-# 5 7 7 7 7 5 7 7
+c( freq.WM.HDS, freq.WML.HDS,  freq.M, freq.ML,freq.ML.sout) 
+#   7 7   5 7 7
 
 ################################
 # PLOTS OF BETA
 ################################
 
-
-maximo=max(c(beta.WM.FBOXB,beta.WM.BQDS,beta.WM.HDS,beta.WML.HDS,beta.WML.FBOXB,beta.M,beta.ML,beta.ML.sout))
-minimo=min(c(beta.WM.FBOXB,beta.WM.BQDS,beta.WM.HDS,beta.WML.HDS,beta.WML.FBOXB,beta.M,beta.ML,beta.ML.sout))
-
-
-par(mar=c(4,5,3,3))
-plot(ttt,beta.WM.BQDS, type="l", col="blue",lwd=2, xlab= "Time (in hours)", 
-      ylim=c(minimo,maximo), ylab=expression(hat(beta)))
-lines(ttt,beta.WM.FBOXB, type="l", col="steelblue",lwd=2)
-lines(ttt,beta.WM.HDS, type="l", col="violet",lty=2,lwd=2)
-
-lines(ttt,beta.WML.HDS, type="l", col="pink",lwd=2)
-
-lines(ttt,beta.M, type="l", col="cyan",lwd=2)
-lines(ttt,beta.ML, type="l", col="tomato",lwd=2)
-lines(ttt,beta.ML.sout, type="l", lty=2, col="maroon",lwd=2)
-
-estimador <- c('WM.BQDS','WM.FBOXB', 'WM.HDS', 'WML.HDS','M','ML','ML.sout')
-colores <- c("blue","steelblue","violet","pink","cyan","tomato","maroon")
-legend('bottom', legend=estimador, col=colores, lty=c(1,1,2,1,1,1,2), lwd=4,ncol=2,cex=0.8)
-
-
-nombre="beta-ML-WMBQDS-MLSOUT-OUTHDS.pdf"
-pdf(nombre, bg='transparent')
-par(mar=c(4,5,3,3))
-
-maximo=max(c(beta.WM.BQDS,beta.ML.sout,beta.ML))
-minimo=min(c(beta.WM.BQDS,beta.ML.sout,beta.ML))
-
-
-plot(ttt,beta.WM.BQDS, type="l", col="blue",lwd=2, xlab= "Time (in hours)", 
-      ylim=c(minimo,maximo), ylab=expression(hat(beta)))
-lines(ttt,beta.ML, type="l", col="tomato",lwd=2)
-lines(ttt,beta.ML.sout, type="l", lty=2, col="maroon",lwd=2)
- 
-dev.off()
  
 
 nombre="beta-ML-WMHDS-MLSOUT-OUTHDS.pdf"
@@ -772,6 +599,26 @@ lines(ttt,beta.ML.sout, type="l", lty=2, col="maroon",lwd=2)
  
 dev.off()
 
+
+
+nombre="beta-ML-MLSOUT-black.pdf"
+pdf(nombre, bg='transparent')
+par(mar=c(4,5,3,3))
+
+
+
+maximo=max(c(beta.WM.HDS,beta.ML.sout,beta.ML))
+minimo=min(c(beta.WM.HDS,beta.ML.sout,beta.ML))
+
+
+plot(ttt,beta.WM.HDS, type="n", col="black",lwd=3,  xlab= "Time (in hours)", 
+      ylim=c(minimo,maximo), ylab=expression(hat(beta)), cex.lab=1.3,cex=1.2)
+
+lines(ttt,beta.ML, type="l", col="red",lwd=3)
+
+lines(ttt,beta.ML.sout, type="l", lty=2, col="maroon",lwd=3)
+ 
+dev.off()
 
 
 nombre="beta-ML-M-WMLHDS-black2.pdf"
@@ -816,56 +663,7 @@ lines(ttt,beta.ML.sout, type="l", lty=3, col="magenta",lwd=3)
  
 dev.off()
 
-
-nombre="beta-ML-M-WMLHDS-WMBQDS-MLSOUT-OUTHDS-black3.pdf"
-pdf(nombre, bg='transparent')
-par(mar=c(4,5,3,3))
-
-maximo=max(c(beta.WM.HDS,beta.ML.sout,beta.ML))
-minimo=min(c(beta.WM.HDS,beta.ML.sout,beta.ML))
-
-
-
-plot(ttt,beta.WM.HDS, type="l", col="black",lwd=3, xlab= "Time (in hours)", 
-      ylim=c(minimo,maximo), ylab=expression(hat(beta)), cex.lab=1.3,cex=1.2)
-
-lines(ttt,beta.M, type="l", col="gray70",lwd=3)
-lines(ttt,beta.ML, type="l", col="red4",lwd=3)
-lines(ttt,beta.WML.HDS, type="l", col="red",lty=2,lwd=3)
-
-
-lines(ttt,beta.WM.BQDS, type="l", col="gray50",lty=2,lwd=3)
-
-lines(ttt,beta.ML.sout, type="l", lty=3, col="magenta",lwd=3)
-
-
-
-dev.off()
-
-
-
-nombre="beta-ML-M-WMLHDS-MLSOUT-OUTHDS-black3.pdf"
-pdf(nombre, bg='transparent')
-par(mar=c(4,5,3,3))
-
-maximo=max(c(beta.WM.HDS,beta.ML.sout,beta.ML))
-minimo=min(c(beta.WM.HDS,beta.ML.sout,beta.ML))
-
-
-
-plot(ttt,beta.WM.HDS, type="l", col="black",lwd=3, xlab= "Time (in hours)", 
-      ylim=c(minimo,maximo), ylab=expression(hat(beta)), cex.lab=1.3,cex=1.2)
-
-lines(ttt,beta.M, type="l", col="gray70",lwd=3)
-lines(ttt,beta.ML, type="l", col="red",lwd=3)
-lines(ttt,beta.WML.HDS, type="l", col="red",lty=2,lwd=3)
  
-
-lines(ttt,beta.ML.sout, type="l", lty=3, col="magenta",lwd=3)
-
-
-
-dev.off()
 
 ################################################
 # PREDICTED PROBABILTIES OVER THE WHOLE SAMPLE
@@ -894,11 +692,11 @@ prob.ML.X.sout <- prob.ML[-outliers]
 prob.M.X.sout <- prob.M[-outliers]
  
 prob.WML.HDS.X.sout <- prob.WML.HDS[-outliers]
-prob.WML.FBOXB.X.sout <- prob.WML.FBOXB[-outliers]
+ 
 
 prob.WM.BQDS.X.sout <- prob.WM.BQDS[-outliers]
 prob.WM.HDS.X.sout <- prob.WM.HDS[-outliers]
-prob.WM.FBOXB.X.sout <- prob.WM.FBOXB[-outliers]
+ 
  
 
 nombre="prob-predicha-ML-SOUT-XSOUT-OUTHDS.pdf"
@@ -925,14 +723,7 @@ boxplot(prob.WML.HDS.X.sout[yy.sout==0], prob.WML.HDS.X.sout[yy.sout==1], col=c(
 
 dev.off()
 
-
-nombre="prob-predicha-WML-FBOXB-XSOUT-OUTHDS.pdf"
-pdf(nombre, bg='transparent')
-
-boxplot(prob.WML.FBOXB.X.sout[yy.sout==0], prob.WML.FBOXB.X.sout[yy.sout==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
+ 
 
 nombre="prob-predicha-M-XSOUT-OUTHDS.pdf"
 pdf(nombre, bg='transparent')
@@ -942,15 +733,7 @@ boxplot(prob.M.X.sout[yy.sout==0], prob.M.X.sout[yy.sout==1], col=c("gold","viol
 
 dev.off()
 
-
-nombre="prob-predicha-WM-BQDS-XSOUT-OUTHDS.pdf"
-pdf(nombre, bg='transparent')
-
-boxplot(prob.WM.BQDS.X.sout[yy.sout==0], prob.WM.BQDS.X.sout[yy.sout==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
-
+ 
 
 nombre="prob-predicha-WM-HDS-XSOUT-OUTHDS.pdf"
 pdf(nombre, bg='transparent')
@@ -960,16 +743,7 @@ boxplot(prob.WM.HDS.X.sout[yy.sout==0], prob.WM.HDS.X.sout[yy.sout==1], col=c("g
 
 dev.off()
 
-
-nombre="prob-predicha-WM-FBOXB-XSOUT-OUTHDS.pdf"
-pdf(nombre, bg='transparent')
-
-boxplot(prob.WM.FBOXB.X.sout[yy.sout==0], prob.WM.FBOXB.X.sout[yy.sout==1], col=c("gold","violet"), names=c("Low Demand", "High Demand"))
-   abline(h=0.5, col="gray30",lty=2,lwd=2)
-
-dev.off()
  
-
 ###############################################
 # TABLE WITH OUTLIERS AND RESIDUALS of WM-HDS
 ###############################################
@@ -987,7 +761,7 @@ dates <- sapply(x,FUN = function(x){class(x) == "Date"})
 tablita[,dates] <- as.character(tablita[,dates])
 
 ############################################
-# ARMO TABLA
+# TABLE
 ########################################
 
 
@@ -1050,7 +824,7 @@ caption='Outliers identified by WM with weights based on the Mahalanobis distanc
 \end{table}
 
 #####################################################
-# SOME PLOTS AND SUMMARY MEASURES BASED ON ROC 
+# SOME PLOTS  
 #####################################################
 
 
@@ -1210,91 +984,9 @@ if(yy[i]==0){ lines(ttt, X[i,] , type = "l", col = "black",
   
 dev.off()
 
-#########################################
-# ROC OVER THE CLEAN SAMPLE
-#########################################
-
-xD.ML <- prob.ML.X.sout[yy.sout==1] 
-xH.ML <- prob.ML.X.sout[yy.sout==0]
-
-xD.ML.sout<- prob.ML.sout.X.sout[yy.sout ==1]
-xH.ML.sout<- prob.ML.sout.X.sout[yy.sout ==0]
-
-xD.WM <-prob.WM.BQDS.X.sout[yy.sout==1]
-xH.WM <- prob.WM.BQDS.X.sout[yy.sout==0]
-
-
-ROC.curve<- function(xD,xH,p) {
-  	xD.emp <- ecdf(xD)
-	roc.cl = 1- xD.emp(quantile(xH,1-p))
-  	return(roc.cl)
-}
-
-AUC <- function(xD,xH){ mean(outer(xD,xH,"-")>0) }
-
-p.grid<- 500
-pes <- seq(0.00,1.00,length=p.grid)
-  
-#ROCp <- rep(0,length=p.grid)
-
-ROC.ML <- ROC.curve(xD=xD.ML,xH=xH.ML,pes)
-
-ROC.ML.sout <- ROC.curve(xD=xD.ML.sout,xH=xH.ML.sout,pes)
-ROC.WM.BQDS <- ROC.curve(xD=xD.WM,xH=xH.WM,pes)
-
-plot(pes,ROC.ML,ylim=c(0,1),type="l",lty=1,col="red",lwd=3)
-lines(pes,ROC.ML.sout, lty=2,col="maroon",lwd=2)
-lines(pes,ROC.WM.BQDS, lty=1,col="blue",lwd=2)
-lines(pes,pes,col="gray")
-
-AUC.ML <- AUC(xD=xD.ML,xH=xH.ML)
-
-AUC.ML.sout <- AUC(xD=xD.ML.sout,xH=xH.ML.sout)
-
-AUC.WM <- AUC(xD=xD.WM,xH=xH.WM)
-
-c(AUC.ML,AUC.ML.sout,AUC.WM)
-#.8701403 0.8771140 0.8729904
-
-
-#########################################
-# ROC OVER THE WHOLE SAMPLE
-#########################################
-
-xD.ML.all <- prob.ML[yy==1] 
-xH.ML.all <- prob.ML[yy==0]
-
-xD.ML.sout.all<- prob.ML.sout[yy ==1]
-xH.ML.sout.all<- prob.ML.sout[yy ==0]
-
-xD.WM.all <-prob.WM.BQDS[yy==1]
-xH.WM.all <- prob.WM.BQDS[yy==0]
-
- 
-p.grid<- 500
-pes <- seq(0.00,1.00,length=p.grid)
-   
-ROC.ML.all <- ROC.curve(xD=xD.ML.all,xH=xH.ML.all,pes)
-
-ROC.ML.sout.all <- ROC.curve(xD=xD.ML.sout.all,xH=xH.ML.sout.all,pes)
-ROC.WM.BQDS.all <- ROC.curve(xD=xD.WM.all,xH=xH.WM.all,pes)
-
-plot(pes,ROC.ML.all,ylim=c(0,1),type="l",lty=1,col="red",lwd=3)
-lines(pes,ROC.ML.sout.all, lty=2,col="maroon",lwd=2)
-lines(pes,ROC.WM.BQDS.all, lty=1,col="blue",lwd=2)
-lines(pes,pes,col="gray")
-
-AUC.ML.all <- AUC(xD=xD.ML.all,xH=xH.ML.all)
-
-AUC.ML.sout.all <- AUC(xD=xD.ML.sout.all,xH=xH.ML.sout.all)
-
-AUC.WM.all <- AUC(xD=xD.WM.all,xH=xH.WM.all)
-
-c(AUC.ML.all,AUC.ML.sout.all,AUC.WM.all)
-#0.8382681 0.8343766 0.8272521
+# 
 
 
 
-
-archivo <- "German-Electricity-2023-06-11-OUTHDS.RData"
+archivo <- "German-Electricity-2023-11-04-OUTHDS.RData"
 save.image(archivo)
