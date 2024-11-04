@@ -694,7 +694,6 @@ prob.M.X.sout <- prob.M[-outliers]
 prob.WML.HDS.X.sout <- prob.WML.HDS[-outliers]
  
 
-prob.WM.BQDS.X.sout <- prob.WM.BQDS[-outliers]
 prob.WM.HDS.X.sout <- prob.WM.HDS[-outliers]
  
  
