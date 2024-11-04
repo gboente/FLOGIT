@@ -405,10 +405,10 @@ residuo.dev.WM.HDS <- result.WM.HDS$residuo.deviance
 #########################################################
 
 c(  alfa.WM.HDS, alfa.WML.HDS,  alfa.M, alfa.ML) 
-#   -1.811251 -1.692665  -1.588176 -1.563998
+ 
 
 c(  freq.WM.HDS, freq.WML.HDS,  freq.M, freq.ML) 
-#   7 7   5 7
+ 
 
 ################################
 # PLOTS OF BETA
@@ -484,14 +484,13 @@ res <- abs(residuo.ML)
 out.pearson<-as.numeric(names(adjbox(res)$out))
 inliers <- res[out.pearson] < median(res,na.rm =TRUE )
 out.res.pearson.ML <- out.pearson[!inliers] 
-# 75 469 502 508 519 550 638
+ 
 
 res <- abs(residuo.WML.HDS )
 out.pearson<-as.numeric(names(adjbox(res)$out))
 inliers <- res[out.pearson] < median(res,na.rm =TRUE)
 out.res.pearson.WML.HDS <- out.pearson[!inliers] 
-#66  75  76  77 134 136 137 445 469 502 508 519 543 550 618 619 621 622 627
-# 638
+ 
 
 
  
@@ -499,7 +498,7 @@ res <- abs(residuo.M )
 out.pearson<-as.numeric(names(adjbox(res)$out))
 inliers <- res[out.pearson] < median(res,na.rm =TRUE)
 out.res.pearson.M <- out.pearson[!inliers] 
-#  321 336 469 519 638
+ 
 
  
 
@@ -507,8 +506,7 @@ res <- abs(residuo.WM.HDS )
 out.pearson<-as.numeric(names(adjbox(res)$out))
 inliers <- res[out.pearson] < median(res,na.rm =TRUE)
 out.res.pearson.WM.HDS <- out.pearson[!inliers] 
-# 66  75  76  77 134 136 137 445 469 502 508 519 543 550 618 619 621 622 627
-# 638
+ 
 
 ######################################################
 ## QQ PLOT OF Deviance RESIDUALS COMPUTED WITH WM-HDS
@@ -573,10 +571,9 @@ prob.ML.sout <- result.ML.sout$prob.predict
 ##################################################
 
 c(  alfa.WM.HDS, alfa.WML.HDS,   alfa.M, alfa.ML,alfa.ML.sout) 
-#   -1.811251 -1.692665   -1.588176 -1.563998  -1.852221
-
+ 
 c( freq.WM.HDS, freq.WML.HDS,  freq.M, freq.ML,freq.ML.sout) 
-#   7 7   5 7 7
+ 
 
 ################################
 # PLOTS OF BETA
@@ -786,42 +783,7 @@ rownames(tabla[,-1]) <-outliers
 print(xtable2(tabla[,-1],  digits=3 ,align='c|cccc|', 
 caption='Outliers identified by WM with weights based on the Mahalanobis distance and hard rejection weight function'), type='latex')
 
-#########################################################################
-#RESULT
-#########################################################################
-    
- % latex table generated in R 4.1.1 by xtable 1.8-4 package
-% Sun Jun 11 20:08:04 2023
-\begin{table}[ht]
-\centering
-\begin{tabular}{c|cccc|}
-  \hline
- & xx\$Date[outliers] & residuo.dev.WM.HDS[outliers] & yy[outliers] & prob.WM.HDS[outliers] \\ 
-  \hline
-134 & 2006-07-25 & -5.686 & 0.000 & 1.000 \\ 
-  136 & 2006-07-27 & -4.972 & 0.000 & 1.000 \\ 
-  137 & 2006-07-28 & -2.667 & 0.000 & 0.971 \\ 
-  469 & 2008-01-10 & -2.493 & 0.000 & 0.955 \\ 
-  502 & 2008-03-03 & -2.412 & 0.000 & 0.945 \\ 
-  508 & 2008-03-11 & -2.282 & 0.000 & 0.926 \\ 
-  519 & 2008-03-28 & -3.052 & 0.000 & 0.990 \\ 
-  621 & 2008-09-05 & -2.512 & 0.000 & 0.957 \\ 
-  622 & 2008-09-08 & -2.497 & 0.000 & 0.956 \\ 
-  627 & 2008-09-15 & -2.385 & 0.000 & 0.942 \\ 
-  638 & 2008-09-30 & -2.923 & 0.000 & 0.986 \\ 
-  66 & 2006-04-10 & 2.344 & 1.000 & 0.064 \\ 
-  75 & 2006-04-25 & 2.905 & 1.000 & 0.015 \\ 
-  76 & 2006-04-26 & 2.511 & 1.000 & 0.043 \\ 
-  77 & 2006-04-27 & 2.313 & 1.000 & 0.069 \\ 
-  445 & 2007-11-20 & 3.208 & 1.000 & 0.006 \\ 
-  543 & 2008-05-06 & 2.393 & 1.000 & 0.057 \\ 
-  550 & 2008-05-16 & 2.435 & 1.000 & 0.052 \\ 
-  580 & 2008-07-01 & 2.196 & 1.000 & 0.090 \\ 
-   \hline
-\end{tabular}
-\caption{Outliers identified by WM with weights based on the Mahalanobis distance and hard rejection weight function} 
-\end{table}
-
+ 
 #####################################################
 # SOME PLOTS  
 #####################################################
